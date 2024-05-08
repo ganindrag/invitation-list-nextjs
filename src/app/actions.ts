@@ -1,6 +1,7 @@
 "use server";
 import { getDB } from "@/db";
 import { IData } from "@/types";
+import { revalidatePath } from "next/cache";
 
 export async function getData() {
   const { db } = getDB();
@@ -15,6 +16,7 @@ export async function save(data: IData) {
       [data.name, data.address, data.kategori_id, data.created_by]
     );
     console.log("Data saved successfully.");
+    revalidatePath("/", "page");
     return result;
   } catch (error) {
     console.error("Error saving data:", error);
